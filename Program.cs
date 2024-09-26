@@ -6,6 +6,16 @@ namespace RegisterAndLoginApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // New - copied from microsoft documentation
+            builder.Services.AddDistributedMemoryCache();
+            // New - Copied from microsoft documentation
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -23,6 +33,8 @@ namespace RegisterAndLoginApp
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 
